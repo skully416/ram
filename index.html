@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Download More RAM</title>
+    <style>
+        body {
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 30px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        #progress-fill {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 0;
+            transition: width 0.1s ease-in-out;
+        }
+
+        #current-ram {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #download-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        #download-button:hover {
+            background-color: #45a049;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Download More RAM</h1>
+
+        <div class="form-group">
+            <label for="current-ram">Enter the amount of RAM you currently have (in GB):</label>
+            <input type="number" id="current-ram" min="0" step="1" placeholder="Enter RAM amount">
+        </div>
+
+        <div class="form-group">
+            <label for="new-ram-amount">Enter the additional RAM you want to download (in GB):</label>
+            <input type="number" id="new-ram-amount" min="0" step="1" placeholder="Enter additional RAM amount">
+        </div>
+
+        <div id="progress-bar">
+            <div id="progress-fill"></div>
+        </div>
+
+        <div id="current-ram-display">Current RAM: <span id="ram-amount-display">0 GB</span></div>
+
+        <button id="download-button" onclick="startDownload()">Download RAM</button>
+
+        <div class="footer">
+        </div>
+    </div>
+
+    <script>
+        function startDownload() {
+            var currentRamInput = document.getElementById("current-ram");
+            var newRamInput = document.getElementById("new-ram-amount");
+            var progressBar = document.getElementById("progress-fill");
+            var currentRamDisplay = document.getElementById("ram-amount-display");
+
+            var currentRam = parseInt(currentRamInput.value);
+            var newRam = parseInt(newRamInput.value);
+
+            if (isNaN(currentRam) || currentRam <= 0 || isNaN(newRam) || newRam <= 0) {
+                alert("Please enter valid RAM amounts.");
+                return;
+            }
+
+            var targetRam = currentRam + newRam;
+            var currentProgress = (currentRam / targetRam) * 100;
+
+            var interval = setInterval(fillProgress, 100);
+
+            function fillProgress() {
+                if (currentProgress >= 100) {
+                    clearInterval(interval);
+                } else {
+                    var randomIncrement = Math.floor(Math.random() * 10) + 1;
+                    currentProgress += randomIncrement;
+                    if (currentProgress > 100) {
+                        currentProgress = 100;
+                    }
+                    progressBar.style.width = currentProgress + "%";
+                    currentRamDisplay.textContent = Math.round((currentProgress / 100) * targetRam) + " GB";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
